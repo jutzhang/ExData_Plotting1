@@ -13,11 +13,17 @@ str(subdata)
 subdata$date <- strptime(paste(subdata$Date,subdata$Time,sep = " "), 
                          "%d/%m/%Y %H:%M:%S")
 
-#make plot1
-with(subdata, hist(Global_active_power, col="red", breaks=15, 
-                         xlab="Global Active Power (kilowatts)",
-                         main="Global Active Power",ylim=c(0,1200)))
-dev.copy(png,'plot1.png',  width = 480, height = 480)
+# setting locale to en_US for proper day in a week labels
+locale_original <- Sys.getlocale( category = "LC_TIME" )
+Sys.setlocale("LC_TIME", "English")
+
+subdata$date <- as.Date(subdata$date, "%a")
+
+#make plot2
+with(subdata, plot(date, Global_active_power, type="l", xlab = "",
+                         ylab="Global Active Power (in kilowatts)",
+                         cex.lab=0.7, cex.axis=0.8))
+dev.copy(png,'plot2.png',  width = 480, height = 480)
 dev.off()
 
 
