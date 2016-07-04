@@ -17,8 +17,6 @@ subdata$date <- strptime(paste(subdata$Date,subdata$Time,sep = " "),
 locale_original <- Sys.getlocale( category = "LC_TIME" )
 Sys.setlocale("LC_TIME", "English")
 
-subdata$date <- as.Date(subdata$date, "%a")
-
 #make plot2
 with(subdata, plot(date, Global_active_power, type="l", xlab = "",
                          ylab="Global Active Power (in kilowatts)",
@@ -26,6 +24,8 @@ with(subdata, plot(date, Global_active_power, type="l", xlab = "",
 dev.copy(png,'plot2.png',  width = 480, height = 480)
 dev.off()
 
+# Restore locale settings
+Sys.setlocale( category = "LC_TIME", locale = locale_original )
 
 
 
